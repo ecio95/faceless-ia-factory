@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faceless IA Factory</title>
+<style>
+  :root { --bg:#ffffff; --fg:#16181d; --muted:#5b616e; --line:#e4e6eb; --accent:#2f6df6; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#101216; --fg:#eceef2; --muted:#9aa1ad; --line:#272b33; --accent:#6f9bff; }
+  }
+  :root[data-theme="dark"] { --bg:#101216; --fg:#eceef2; --muted:#9aa1ad; --line:#272b33; --accent:#6f9bff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:720px; margin:0 auto; padding:64px 16px 80px; }
+  h1 { font-size:28px; margin:0 0 8px; letter-spacing:-.01em; }
+  p.lead { color:var(--muted); margin:0 0 32px; }
+  h2 { font-size:17px; margin:32px 0 8px; }
+  ul { padding-left:20px; }
+  li { margin:4px 0; }
+  a { color:var(--accent); }
+  footer { margin-top:48px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Faceless IA Factory</h1>
+  <p class="lead">Strumento personale di automazione che genera brevi video divulgativi e li pubblica sugli account social del proprietario.</p>
+
+  <h2>Cosa fa</h2>
+  <ul>
+    <li>Genera script, voce narrante e immagini con modelli di intelligenza artificiale.</li>
+    <li>Compone il video verticale finale (1080&times;1920) con FFmpeg.</li>
+    <li>Pubblica il video sul canale YouTube e sull'account TikTok del proprietario dell'app.</li>
+  </ul>
+
+  <h2>Uso di TikTok</h2>
+  <p>L'applicazione utilizza la Content Posting API di TikTok esclusivamente per pubblicare video sull'account TikTok dell'utente che ha concesso l'autorizzazione. Non legge contenuti di terzi e non pubblica su account diversi da quello autorizzato. Tutti i video caricati sono generati con intelligenza artificiale e vengono dichiarati come tali tramite il flag <code>is_aigc</code>.</p>
+
+  <h2>Documenti</h2>
+  <ul>
+    <li><a href="privacy.html">Informativa sulla privacy</a></li>
+    <li><a href="terms.html">Termini di servizio</a></li>
+  </ul>
+
+  <footer>Contatto: <a href="mailto:alessiomaestri22@gmail.com">alessiomaestri22@gmail.com</a></footer>
+</div>
+</body>
+</html>
