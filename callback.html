@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autorizzazione TikTok</title>
+<style>
+  :root { --bg:#ffffff; --fg:#16181d; --muted:#5b616e; --line:#e4e6eb; --accent:#2f6df6; --ok:#1a7f4b; --err:#c0392b; --box:#f6f7f9; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#101216; --fg:#eceef2; --muted:#9aa1ad; --line:#272b33; --accent:#6f9bff; --ok:#54c08a; --err:#ff8b7d; --box:#191c22; }
+  }
+  :root[data-theme="dark"] { --bg:#101216; --fg:#eceef2; --muted:#9aa1ad; --line:#272b33; --accent:#6f9bff; --ok:#54c08a; --err:#ff8b7d; --box:#191c22; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:640px; margin:0 auto; padding:56px 16px 72px; }
+  h1 { font-size:22px; margin:0 0 6px; }
+  p.sub { color:var(--muted); margin:0 0 28px; }
+  .box { background:var(--box); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin:0 0 14px; }
+  .label { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:6px; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; word-break:break-all; display:block; }
+  button { font:inherit; font-size:14px; padding:8px 14px; border-radius:8px; border:1px solid var(--line); background:var(--accent); color:#fff; cursor:pointer; }
+  .ok { color:var(--ok); } .err { color:var(--err); }
+  ol { padding-left:20px; color:var(--muted); font-size:14px; } li { margin:6px 0; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Autorizzazione TikTok</h1>
+  <p class="sub">Questa pagina riceve il codice di autorizzazione. Nulla viene salvato o inviato: il codice resta solo in questa finestra.</p>
+  <div id="out"></div>
+  <ol id="next" hidden>
+    <li>Copia il codice qui sopra.</li>
+    <li>Aprilo in n8n nel workflow di primo setup e incollalo nel campo <code>code</code>.</li>
+    <li>Esegui il workflow: scrive <code>tiktok_token.json</code> con access e refresh token.</li>
+    <li>Il codice scade in pochi minuti ed &egrave; usabile una volta sola: se sbagli, rifai l&rsquo;autorizzazione.</li>
+  </ol>
+</div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var out = document.getElementById("out");
+  var err = q.get("error");
+  function box(label, value, withCopy) {
+    var d = document.createElement("div"); d.className = "box";
+    var l = document.createElement("div"); l.className = "label"; l.textContent = label; d.appendChild(l);
+    var c = document.createElement("code"); c.textContent = value; d.appendChild(c);
+    if (withCopy) {
+      var b = document.createElement("button"); b.textContent = "Copia"; b.style.marginTop = "10px";
+      b.onclick = function () {
+        var t = document.createElement("textarea"); t.value = value; document.body.appendChild(t);
+        t.select();
+        try { document.execCommand("copy"); b.textContent = "Copiato"; } catch (e) { b.textContent = "Copia a mano"; }
+        document.body.removeChild(t);
+      };
+      d.appendChild(b);
+    }
+    out.appendChild(d);
+  }
+  if (err) {
+    var p = document.createElement("p"); p.className = "err";
+    p.textContent = "Autorizzazione non riuscita: " + err + (q.get("error_description") ? " - " + q.get("error_description") : "");
+    out.appendChild(p);
+    return;
+  }
+  var code = q.get("code");
+  if (!code) {
+    var n = document.createElement("p"); n.className = "sub";
+    n.textContent = "Nessun codice nell indirizzo. Apri questa pagina solo dopo aver autorizzato app su TikTok.";
+    out.appendChild(n);
+    return;
+  }
+  var okp = document.createElement("p"); okp.className = "ok"; okp.textContent = "Autorizzazione riuscita."; out.appendChild(okp);
+  box("Authorization code", decodeURIComponent(code), true);
+  if (q.get("scopes")) box("Scope concessi", q.get("scopes"), false);
+  if (q.get("state")) box("State", q.get("state"), false);
+  document.getElementById("next").hidden = false;
+})();
+</script>
+</body>
+</html>
